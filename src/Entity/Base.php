@@ -52,7 +52,18 @@ abstract class Base extends BaseDataType
      * Parameters to be used in the header
      * @var array
      */
-    protected $header_meta_params = [];
+    protected $header_meta_params = [
+        'SoftwareName' => [
+            'type' => 'string',
+            'required' => true,
+            'subobject' => false,
+        ],
+        'SoftwareVersion' => [
+            'type' => 'string',
+            'required' => true,
+            'subobject' => false,
+        ],
+    ];
 
     /**
      * Parameters to be used in the body
