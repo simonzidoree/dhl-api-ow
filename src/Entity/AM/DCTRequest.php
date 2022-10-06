@@ -30,6 +30,18 @@ class DCTRequest extends Base
     protected $service_xsd = 'DCT-req.xsd';
 
     /**
+     * Display Schema version or not
+     * @var boolean
+     */
+    protected $display_schema_version = true;
+
+    /**
+     * @var string
+     * The schema version
+     */
+    protected $schema_version = '2.0';
+
+    /**
      * Parameters to be send in the body
      * @var array
      */
