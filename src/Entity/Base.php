@@ -52,7 +52,18 @@ abstract class Base extends BaseDataType
      * Parameters to be used in the header
      * @var array
      */
-    protected $header_meta_params = [];
+    protected $header_meta_params = [
+        'SoftwareName' => [
+            'type' => 'string',
+            'required' => true,
+            'subobject' => false,
+        ],
+        'SoftwareVersion' => [
+            'type' => 'string',
+            'required' => true,
+            'subobject' => false,
+        ],
+    ];
 
     /**
      * Parameters to be used in the body
@@ -92,6 +103,12 @@ abstract class Base extends BaseDataType
      * Render the schema version or not
      */
     protected $display_schema_version = false;
+
+    /**
+     * @var string
+     * Whether entity should use metadata or not
+     */
+    protected $dont_use_meta_data = false;
 
     /**
      * Parent node name of the object
@@ -149,8 +166,7 @@ abstract class Base extends BaseDataType
             $xml_writer->writeElement($name, $this->$name);
         }
         $xml_writer->endElement(); // End of ServiceHeader
-
-        if (!empty($this->header_meta_params)) {
+        if (!empty($this->header_meta_params) && !$this->dont_use_meta_data) {
             $xml_writer->startElement('MetaData');
             foreach ($this->header_meta_params as $name => $infos) {
                 $xml_writer->writeElement($name, $this->$name);
@@ -192,6 +208,7 @@ abstract class Base extends BaseDataType
                 }
             }
         }
+
 
         $xml_writer->endElement(); // End of parent node
 
