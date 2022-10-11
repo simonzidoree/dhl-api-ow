@@ -25,5 +25,10 @@ class Request extends Base
             'required' => false,
             'subobject' => true,
         ],
+        'MetaData' => [
+            'type' => 'MetaData',
+            'required' => false,
+            'subobject' => true,
+        ],
     ];
 }
