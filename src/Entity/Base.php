@@ -52,16 +52,14 @@ abstract class Base extends BaseDataType
      * Parameters to be used in the header
      * @var array
      */
-    protected $header_meta_params = [
+    protected $meta_params = [
         'SoftwareName' => [
             'type' => 'string',
-            'required' => true,
-            'subobject' => false,
+            'required' => true
         ],
         'SoftwareVersion' => [
             'type' => 'string',
-            'required' => true,
-            'subobject' => false,
+            'required' => true
         ],
     ];
 
@@ -127,7 +125,7 @@ abstract class Base extends BaseDataType
      */
     public function __construct()
     {
-        $this->params = array_merge($this->header_params, $this->header_meta_params, $this->body_params);
+        $this->params = array_merge($this->header_params, $this->body_params, $this->meta_params);
         $this->initializeValues();
     }
 
@@ -166,12 +164,14 @@ abstract class Base extends BaseDataType
             $xml_writer->writeElement($name, $this->$name);
         }
         $xml_writer->endElement(); // End of ServiceHeader
-        if (!empty($this->header_meta_params) && !$this->dont_use_meta_data) {
-            $xml_writer->startElement('MetaData');
-            foreach ($this->header_meta_params as $name => $infos) {
-                $xml_writer->writeElement($name, $this->$name);
+        if (!$this->dont_use_meta_data) {
+            if (!empty($this->meta_params)) {
+                $xml_writer->startElement('MetaData');
+                foreach ($this->meta_params as $name => $infos) {
+                    $xml_writer->writeElement($name, $this->$name);
+                }
+                $xml_writer->endElement(); // End of MetaData
             }
-            $xml_writer->endElement(); // End of MetaData
         }
         $xml_writer->endElement(); // End of Request
 
